@@ -1,0 +1,11 @@
+# Python
+*.egg
+*.egg-info
+*.eggs
+*.py[co]
+.cache
+build
+dist
+# Vim
+*.sw[op]
+*~

@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+from invisibleroads.scripts import (
+    ReflectiveArgumentParser,
+    configure_subparsers, get_scripts_by_name, run_scripts)
+
+
+if __name__ == '__main__':
+    argument_parser = ReflectiveArgumentParser(add_help=False)
+    argument_subparsers = argument_parser.add_subparsers(dest='command')
+    scripts_by_name = get_scripts_by_name('invisibleroads')
+    configure_subparsers(argument_subparsers, scripts_by_name)
+    args = argument_parser.parse_args()
+    run_scripts(scripts_by_name, args)
