@@ -14,7 +14,7 @@ setup(
     long_description=DESCRIPTION,
     classifiers=[
         'Programming Language :: Python',
-        'Framework :: Pyramid :: InvisibleRoads',
+        'Framework :: Pyramid',
         'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
