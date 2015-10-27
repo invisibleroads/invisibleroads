@@ -1,3 +1,4 @@
+import sys
 from abc import ABCMeta, abstractmethod
 from argparse import ArgumentParser
 from collections import defaultdict
@@ -40,6 +41,15 @@ class ReflectiveArgumentParser(ArgumentParser):
             if action.dest == dest:
                 return True
         return False
+
+
+def launch(argv=sys.argv):
+    argument_parser = ReflectiveArgumentParser(add_help=False)
+    argument_subparsers = argument_parser.add_subparsers(dest='command')
+    scripts_by_name = get_scripts_by_name('invisibleroads')
+    configure_subparsers(argument_subparsers, scripts_by_name)
+    args = argument_parser.parse_args(argv[1:])
+    run_scripts(scripts_by_name, args)
 
 
 def get_scripts_by_name(namespace):
