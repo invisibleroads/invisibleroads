@@ -44,7 +44,8 @@ class ReflectiveArgumentParser(ArgumentParser):
 
 
 def launch(argv=sys.argv):
-    argument_parser = ReflectiveArgumentParser(add_help=False)
+    argument_parser = ReflectiveArgumentParser(
+        'invisibleroads', add_help=False)
     argument_subparsers = argument_parser.add_subparsers(dest='command')
     scripts_by_name = get_scripts_by_name('invisibleroads')
     configure_subparsers(argument_subparsers, scripts_by_name)
