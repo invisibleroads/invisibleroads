@@ -29,7 +29,6 @@ setup(
         'six',
         'stevedore',
     ],
-    tests_require=[],
     entry_points={
         'console_scripts': [
             'invisibleroads = invisibleroads.scripts:launch',
