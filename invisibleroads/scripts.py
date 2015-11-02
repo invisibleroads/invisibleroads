@@ -3,7 +3,6 @@ from abc import ABCMeta, abstractmethod
 from argparse import ArgumentParser
 from collections import defaultdict
 from invisibleroads_macros.log import format_nested_dictionary
-from itertools import izip
 from six import add_metaclass
 from stevedore.extension import ExtensionManager
 
@@ -56,16 +55,16 @@ def launch(argv=sys.argv):
 def get_scripts_by_name(namespace):
     scripts_by_name = defaultdict(list)
     extension_manager = ExtensionManager(namespace, invoke_on_load=True)
-    for name, extension in izip(
+    for name, extension in zip(
             extension_manager.names(), extension_manager.extensions):
         scripts_by_name[name].append(extension.obj)
-    for name, scripts in scripts_by_name.iteritems():
+    for name, scripts in scripts_by_name.items():
         scripts_by_name[name] = sorted(scripts, key=lambda x: x.priority)
     return scripts_by_name
 
 
 def configure_subparsers(argument_subparsers, scripts_by_name):
-    for name, scripts in scripts_by_name.iteritems():
+    for name, scripts in scripts_by_name.items():
         argument_subparser = argument_subparsers.add_parser(
             name, add_help=False)
         for script in scripts:
