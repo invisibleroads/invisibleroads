@@ -2,7 +2,7 @@ import sys
 from abc import ABCMeta, abstractmethod
 from argparse import ArgumentParser
 from collections import defaultdict
-from invisibleroads_macros.log import format_nested_dictionary
+from invisibleroads_macros.log import format_summary
 from six import add_metaclass
 from stevedore.extension import ExtensionManager
 
@@ -78,4 +78,4 @@ def run_scripts(scripts_by_name, args, target_name=None):
         d = script.run(args)
         if not d:
             continue
-        print(format_nested_dictionary(d))
+        print(format_summary(d))
