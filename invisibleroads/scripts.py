@@ -1,6 +1,6 @@
 import sys
 from abc import ABCMeta, abstractmethod
-from argparse import ArgumentParser
+from argparse import ArgumentError, ArgumentParser
 from collections import defaultdict
 from invisibleroads_macros.log import format_summary
 from six import add_metaclass
@@ -25,26 +25,24 @@ class Script(object):
 class ConfigurableScript(Script):
 
     def configure(self, argument_subparser):
-        if not argument_subparser.has_argument('configuration_path'):
-            argument_subparser.add_argument('configuration_path')
+        argument_subparser.add_argument('configuration_path')
 
     @abstractmethod
     def run(self, args):
         pass
 
 
-class ReflectiveArgumentParser(ArgumentParser):
+class StoicArgumentParser(ArgumentParser):
 
-    def has_argument(self, dest):
-        for action in self._actions:
-            if action.dest == dest:
-                return True
-        return False
+    def add_argument(self, *args, **kw):
+        try:
+            return super(StoicArgumentParser, self).add_argument(*args, **kw)
+        except ArgumentError:
+            pass
 
 
 def launch(argv=sys.argv):
-    argument_parser = ReflectiveArgumentParser(
-        'invisibleroads', add_help=False)
+    argument_parser = StoicArgumentParser('invisibleroads', add_help=False)
     argument_subparsers = argument_parser.add_subparsers(dest='command')
     scripts_by_name = get_scripts_by_name('invisibleroads')
     configure_subparsers(argument_subparsers, scripts_by_name)
