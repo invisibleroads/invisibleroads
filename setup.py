@@ -6,11 +6,6 @@ ENTRY_POINTS = """
 [console_scripts]
 invisibleroads = invisibleroads.scripts:launch
 """
-REQUIREMENTS = [
-    'invisibleroads-macros>=0.6.7',
-    'six',
-    'stevedore',
-]
 FOLDER = dirname(abspath(__file__))
 DESCRIPTION = '\n\n'.join(open(join(FOLDER, x)).read().strip() for x in [
     'README.rst', 'CHANGES.rst'])
@@ -33,5 +28,9 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    install_requires=REQUIREMENTS,
+    install_requires=[
+        'invisibleroads-macros>=0.6.7',
+        'six',
+        'stevedore',
+    ],
     entry_points=ENTRY_POINTS)
