@@ -11,7 +11,7 @@ DESCRIPTION = '\n\n'.join(open(join(FOLDER, x)).read().strip() for x in [
     'README.rst', 'CHANGES.rst'])
 setup(
     name='invisibleroads',
-    version='0.1.5',
+    version='0.1.6',
     description='Simple framework for extensible command line scripts',
     long_description=DESCRIPTION,
     classifiers=[
@@ -29,7 +29,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'invisibleroads-macros>=0.6.7',
+        'invisibleroads-macros>=0.6.8',
         'six',
         'stevedore',
     ],
