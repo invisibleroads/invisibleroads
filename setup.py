@@ -29,7 +29,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'invisibleroads-macros>=0.6.8',
+        'invisibleroads-macros>=0.6.9',
         'six',
         'stevedore',
     ],
