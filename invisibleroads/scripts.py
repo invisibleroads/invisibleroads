@@ -68,7 +68,6 @@ def run_scripts(scripts_by_name, args, target_name=None):
     if not target_name:
         target_name = args.command
     for script in scripts_by_name[target_name]:
-        from invisibleroads_credits.models import Customer
         d = script.run(args)
         if not d:
             continue
