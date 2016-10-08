@@ -1,7 +1,7 @@
 import sys
 from abc import ABCMeta, abstractmethod
-from argparse import ArgumentError, ArgumentParser
 from collections import defaultdict
+from invisibleroads_macros.configuration import StoicArgumentParser
 from invisibleroads_macros.log import format_summary
 from six import add_metaclass
 from stevedore.extension import ExtensionManager
@@ -25,15 +25,6 @@ class ConfigurableScript(Script):
 
     def configure(self, argument_subparser):
         argument_subparser.add_argument('configuration_path')
-
-
-class StoicArgumentParser(ArgumentParser):
-
-    def add_argument(self, *args, **kw):
-        try:
-            return super(StoicArgumentParser, self).add_argument(*args, **kw)
-        except ArgumentError:
-            pass
 
 
 def launch(argv=sys.argv):
