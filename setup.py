@@ -28,8 +28,11 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
+    setup_requires=[
+        'pytest-runner'
+    ],
     install_requires=[
-        'invisibleroads-macros>=0.7.4',
+        'invisibleroads-macros>=0.8.0',
         'six',
         'stevedore',
     ],
