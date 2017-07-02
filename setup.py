@@ -11,7 +11,7 @@ DESCRIPTION = '\n\n'.join(open(join(FOLDER, x)).read().strip() for x in [
     'README.rst', 'CHANGES.rst'])
 setup(
     name='invisibleroads',
-    version='0.1.7',
+    version='0.2.0',
     description='Simple framework for extensible command line scripts',
     long_description=DESCRIPTION,
     classifiers=[
@@ -32,7 +32,7 @@ setup(
         'pytest-runner'
     ],
     install_requires=[
-        'invisibleroads-macros>=0.8.1.3',
+        'invisibleroads-macros>=0.8.3',
         'six',
         'stevedore',
     ],
