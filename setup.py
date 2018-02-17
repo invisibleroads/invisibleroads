@@ -32,7 +32,7 @@ setup(
         'pytest-runner',
     ],
     install_requires=[
-        'invisibleroads-macros>=0.8.3',
+        'invisibleroads-macros>=0.9.4',
         'six',
         'stevedore',
     ],
