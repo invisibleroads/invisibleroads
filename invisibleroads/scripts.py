@@ -1,14 +1,12 @@
 import sys
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
+from argparse import ArgumentParser
 from collections import defaultdict
-from invisibleroads_macros.configuration import StoicArgumentParser
-from invisibleroads_macros.log import format_summary
-from six import add_metaclass
+from invisibleroads_macros_log import format_summary
 from stevedore.extension import ExtensionManager
 
 
-@add_metaclass(ABCMeta)
-class Script(object):
+class Script(ABC):
 
     priority = 100
 
@@ -28,7 +26,7 @@ class ConfigurableScript(Script):
 
 
 def launch(argv=sys.argv):
-    argument_parser = StoicArgumentParser('invisibleroads', add_help=False)
+    argument_parser = ArgumentParser('invisibleroads', add_help=False)
     argument_subparsers = argument_parser.add_subparsers(dest='command')
     scripts_by_name = get_scripts_by_name('invisibleroads')
     configure_subparsers(argument_subparsers, scripts_by_name)
