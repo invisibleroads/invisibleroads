@@ -1,11 +1,13 @@
-# Python
-*.egg
-*.egg-info
-*.eggs
-*.py[co]
-.cache
-build
-dist
-# Vim
+# vim
 *.sw[op]
 *~
+# python
+*.egg
+*.egg-info
+*.py[co]
+.cache
+.coverage
+.pytest_cache
+__pycache__
+build/
+dist/

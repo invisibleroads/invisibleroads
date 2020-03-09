@@ -2,38 +2,35 @@ from os.path import abspath, dirname, join
 from setuptools import find_packages, setup
 
 
-ENTRY_POINTS = """
+ENTRY_POINTS = '''
 [console_scripts]
 invisibleroads = invisibleroads.scripts:launch
-"""
+'''
+APPLICATION_CLASSIFIERS = [
+    'Programming Language :: Python',
+    'License :: OSI Approved :: MIT License',
+]
+APPLICATION_REQUIREMENTS = [
+    'stevedore',
+]
 FOLDER = dirname(abspath(__file__))
 DESCRIPTION = '\n\n'.join(open(join(FOLDER, x)).read().strip() for x in [
-    'README.rst', 'CHANGES.rst'])
+    'README.md', 'CHANGES.md'])
+
+
 setup(
     name='invisibleroads',
-    version='0.2.0',
+    version='0.3.0',
     description='Simple framework for extensible command line scripts',
     long_description=DESCRIPTION,
-    classifiers=[
-        'Programming Language :: Python',
-        'Framework :: Pyramid',
-        'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-    ],
+    long_description_content_type='text/markdown',
+    classifiers=APPLICATION_CLASSIFIERS,
     author='Roy Hyunjin Han',
     author_email='rhh@crosscompute.com',
     url='https://github.com/invisibleroads/invisibleroads',
-    keywords='web pyramid pylons invisibleroads',
+    keywords='invisibleroads',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    setup_requires=[
-        'pytest-runner',
-    ],
-    install_requires=[
-        'invisibleroads-macros>=0.9.5.1',
-        'six',
-        'stevedore',
-    ],
+    install_requires=APPLICATION_REQUIREMENTS,
     entry_points=ENTRY_POINTS)
