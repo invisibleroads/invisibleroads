@@ -34,9 +34,10 @@ def launch(argv=sys.argv):
     run_scripts(scripts_by_name, args)
 
 
-def get_scripts_by_name(namespace):
+def get_scripts_by_name(extension_namespace):
     scripts_by_name = defaultdict(list)
-    extension_manager = ExtensionManager(namespace, invoke_on_load=True)
+    extension_manager = ExtensionManager(
+        extension_namespace, invoke_on_load=True)
     for name, extension in zip(
             extension_manager.names(), extension_manager.extensions):
         scripts_by_name[name].append(extension.obj)
