@@ -22,7 +22,9 @@ class Script(ABC):
 class ConfigurableScript(Script):
 
     def configure(self, argument_subparser):
-        argument_subparser.add_argument('configuration_path')
+        argument_names = get_argument_names(argument_subparser)
+        if 'configuration_path' not in argument_names:
+            argument_subparser.add_argument('configuration_path')
 
 
 def launch(argv=sys.argv):
@@ -62,3 +64,7 @@ def run_scripts(scripts_by_name, args, target_name=None):
         if not d:
             continue
         print(format_summary(d))
+
+
+def get_argument_names(argument_subparser):
+    return [_.dest for _ in argument_subparser._actions]
