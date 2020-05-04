@@ -38,8 +38,14 @@ def launch(argv=sys.argv):
 
 def get_scripts_by_name(extension_namespace):
     scripts_by_name = defaultdict(list)
+
+    def handle_load_failure(manager, entrypoint, exception):
+        print(entrypoint, exception)
+
     extension_manager = ExtensionManager(
-        extension_namespace, invoke_on_load=True)
+        extension_namespace,
+        invoke_on_load=True,
+        on_load_failure_callback=handle_load_failure)
     for name, extension in zip(
             extension_manager.names(), extension_manager.extensions):
         scripts_by_name[name].append(extension.obj)
@@ -56,14 +62,23 @@ def configure_subparsers(argument_subparsers, scripts_by_name):
             script.configure(argument_subparser)
 
 
-def run_scripts(scripts_by_name, args, target_name=None):
-    if not target_name:
-        target_name = args.command
-    for script in scripts_by_name[target_name]:
+def run_scripts(scripts_by_name, args):
+    command_name = args.command
+    if not command_name:
+        print(format_help(scripts_by_name))
+        return
+    for script in scripts_by_name[command_name]:
         d = script.run(args)
         if not d:
             continue
         print(format_summary(d))
+
+
+def format_help(scripts_by_name):
+    help_lines = ['Available Commands']
+    for command_name in scripts_by_name:
+        help_lines.append('  ' + command_name)
+    return '\n'.join(help_lines)
 
 
 def get_argument_names(argument_subparser):
