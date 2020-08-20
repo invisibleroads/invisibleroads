@@ -32,6 +32,6 @@ setup(
     keywords='invisibleroads',
     packages=find_packages(),
     include_package_data=True,
-    zip_safe=False,
+    zip_safe=True,
     install_requires=APPLICATION_REQUIREMENTS,
     entry_points=ENTRY_POINTS)
