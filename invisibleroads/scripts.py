@@ -66,10 +66,10 @@ def configure_parser(argument_parser, scripts_by_name):
             command_name = name
         scripts_by_command_name_by_target_name[target_name][
             command_name] = scripts
-    if (is_target_expected(scripts_by_command_name_by_target_name)):
-        argument_subparsers = argument_parser.add_subparsers(dest='target')
-    else:
-        argument_subparsers = argument_parser.add_subparsers(dest='command')
+    # if (is_target_expected(scripts_by_command_name_by_target_name)):
+    argument_subparsers = argument_parser.add_subparsers(dest='target')
+    # else:
+    # argument_subparsers = argument_parser.add_subparsers(dest='command')
 
     target_parser_by_name = {}
     for (
