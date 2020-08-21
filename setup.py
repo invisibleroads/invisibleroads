@@ -11,7 +11,7 @@ APPLICATION_CLASSIFIERS = [
     'License :: OSI Approved :: MIT License',
 ]
 APPLICATION_REQUIREMENTS = [
-    'invisibleroads-macros-log',
+    'invisibleroads-macros-log >= 1.0.3',
     'stevedore',
 ]
 FOLDER = dirname(abspath(__file__))
@@ -21,7 +21,7 @@ DESCRIPTION = '\n\n'.join(open(join(FOLDER, x)).read().strip() for x in [
 
 setup(
     name='invisibleroads',
-    version='0.2.4',
+    version='0.3.0',
     description='Simple framework for extensible command line scripts',
     long_description=DESCRIPTION,
     long_description_content_type='text/markdown',

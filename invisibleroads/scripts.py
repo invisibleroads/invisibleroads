@@ -15,7 +15,7 @@ class Script(ABC):
         pass
 
     @abstractmethod
-    def run(self, args):
+    def run(self, args, argv):
         pass
 
 
@@ -28,12 +28,14 @@ class ConfigurableScript(Script):
 
 
 def launch(argv=sys.argv):
-    argument_parser = ArgumentParser('invisibleroads', add_help=False)
-    argument_subparsers = argument_parser.add_subparsers(dest='command')
-    scripts_by_name = get_scripts_by_name('invisibleroads')
-    configure_subparsers(argument_subparsers, scripts_by_name)
-    args = argument_parser.parse_args(argv[1:])
-    run_scripts(scripts_by_name, args)
+    launch_script('invisibleroads', argv)
+
+
+def launch_script(script_name, argv):
+    argument_parser = ArgumentParser(script_name)
+    scripts_by_name = get_scripts_by_name(script_name)
+    parser_by_name = configure_parser(argument_parser, scripts_by_name)
+    run_scripts(argument_parser, parser_by_name, scripts_by_name, argv)
 
 
 def get_scripts_by_name(extension_namespace):
@@ -54,31 +56,63 @@ def get_scripts_by_name(extension_namespace):
     return scripts_by_name
 
 
-def configure_subparsers(argument_subparsers, scripts_by_name):
+def configure_parser(argument_parser, scripts_by_name):
+    scripts_by_command_name_by_target_name = defaultdict(dict)
     for name, scripts in scripts_by_name.items():
-        argument_subparser = argument_subparsers.add_parser(
-            name, add_help=False)
-        for script in scripts:
-            script.configure(argument_subparser)
+        try:
+            target_name, command_name = name.split('.')
+        except ValueError:
+            target_name = ''
+            command_name = name
+        scripts_by_command_name_by_target_name[target_name][
+            command_name] = scripts
+    if (is_target_expected(scripts_by_command_name_by_target_name)):
+        argument_subparsers = argument_parser.add_subparsers(dest='target')
+    else:
+        argument_subparsers = argument_parser.add_subparsers(dest='command')
+
+    target_parser_by_name = {}
+    for (
+        target_name, scripts_by_command_name,
+    ) in scripts_by_command_name_by_target_name.items():
+        if target_name:
+            target_parser = argument_subparsers.add_parser(target_name)
+            target_parser_by_name[target_name] = target_parser
+            target_subparsers = target_parser.add_subparsers(dest='command')
+        for command_name, scripts in scripts_by_command_name.items():
+            if target_name:
+                subparsers = target_subparsers
+            else:
+                subparsers = argument_subparsers
+            command_parser = subparsers.add_parser(command_name)
+            for script in scripts:
+                script.configure(command_parser)
+    return target_parser_by_name
 
 
-def run_scripts(scripts_by_name, args):
-    command_name = args.command
-    if not command_name:
-        print(format_help(scripts_by_name))
-        return
-    for script in scripts_by_name[command_name]:
-        d = script.run(args)
+def is_target_expected(scripts_by_name):
+    target_count = sum(1 for name, _ in scripts_by_name.items() if name != '')
+    return target_count > 0
+
+
+def run_scripts(argument_parser, parser_by_name, scripts_by_name, argv):
+    known_args, extra_argv = argument_parser.parse_known_args(argv[1:])
+    target_name = getattr(known_args, 'target', None) or ''
+    command_name = getattr(known_args, 'command', None) or ''
+
+    if is_target_expected(scripts_by_name):
+        if not target_name:
+            argument_parser.print_help()
+        elif not command_name:
+            parser_by_name[target_name].print_help()
+    elif not command_name:
+        argument_parser.print_help()
+
+    for script in scripts_by_name[target_name + '.' + command_name]:
+        d = script.run(known_args, extra_argv)
         if not d:
             continue
         print(format_summary(d))
-
-
-def format_help(scripts_by_name):
-    help_lines = ['Available Commands']
-    for command_name in scripts_by_name:
-        help_lines.append('  ' + command_name)
-    return '\n'.join(help_lines)
 
 
 def get_argument_names(argument_subparser):
