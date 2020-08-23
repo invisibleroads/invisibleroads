@@ -99,7 +99,6 @@ def run_scripts(argument_parser, parser_by_name, scripts_by_name, argv):
     known_args, extra_argv = argument_parser.parse_known_args(argv[1:])
     target_name = getattr(known_args, 'target', None) or ''
     command_name = getattr(known_args, 'command', None) or ''
-
     try:
         scripts = scripts_by_name[target_name + '.' + command_name]
     except KeyError:
@@ -107,13 +106,11 @@ def run_scripts(argument_parser, parser_by_name, scripts_by_name, argv):
             scripts = scripts_by_name[target_name]
         except KeyError:
             scripts = []
-
     if not scripts:
         if not target_name:
             argument_parser.print_help()
         elif not command_name:
             parser_by_name[target_name].print_help()
-
     for script in scripts:
         d = script.run(known_args, extra_argv)
         if not d:
