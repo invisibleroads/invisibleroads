@@ -1,8 +1,8 @@
+import json
 import sys
 from abc import ABC, abstractmethod
 from argparse import ArgumentParser
 from collections import defaultdict
-from invisibleroads_macros_log import format_summary
 from stevedore.extension import ExtensionManager
 
 
@@ -115,7 +115,7 @@ def run_scripts(argument_parser, parser_by_name, scripts_by_name, argv):
         d = script.run(known_args, extra_argv)
         if not d:
             continue
-        print(format_summary(d))
+        print(json.dumps(d))
 
 
 def get_argument_names(argument_subparser):
