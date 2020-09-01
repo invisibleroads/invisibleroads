@@ -1,4 +1,5 @@
 # 0.3
+- Define LoggingScript
 - Support nested subparsers
 
 # 0.2

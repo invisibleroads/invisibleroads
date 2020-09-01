@@ -1,4 +1,5 @@
 import json
+import logging
 import sys
 from abc import ABC, abstractmethod
 from argparse import ArgumentParser
@@ -19,7 +20,18 @@ class Script(ABC):
         pass
 
 
-class ConfigurableScript(Script):
+class LoggingScript(Script):
+
+    def configure(self, argument_subparser):
+        argument_subparser.add_argument('--quiet', action='store_true')
+
+    def run(self, args, argv):
+        if args.quiet:
+            return
+        logging.basicConfig()
+
+
+class ConfigurableScript(LoggingScript):
 
     def configure(self, argument_subparser):
         argument_names = get_argument_names(argument_subparser)
