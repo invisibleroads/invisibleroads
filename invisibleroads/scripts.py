@@ -1,4 +1,3 @@
-import json
 import logging
 import sys
 from abc import ABC, abstractmethod
@@ -124,10 +123,7 @@ def run_scripts(argument_parser, parser_by_name, scripts_by_name, argv):
         elif not command_name:
             parser_by_name[target_name].print_help()
     for script in scripts:
-        d = script.run(known_args, extra_argv)
-        if not d:
-            continue
-        print(json.dumps(d))
+        script.run(known_args, extra_argv)
 
 
 def get_argument_names(argument_subparser):
