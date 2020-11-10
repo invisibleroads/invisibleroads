@@ -1,7 +1,7 @@
 import logging
 import sys
 from abc import ABC, abstractmethod
-from argparse import ArgumentParser
+from argparse import ArgumentParser, HelpFormatter
 from collections import defaultdict
 from stevedore.extension import ExtensionManager
 
@@ -22,10 +22,12 @@ class Script(ABC):
 class LoggingScript(Script):
 
     def configure(self, argument_subparser):
-        argument_subparser.add_argument('--quiet', action='store_true')
+        argument_subparser.add_argument(
+            '--quiet', dest='is_quiet', action='store_true',
+            help='hide log messages')
 
     def run(self, args, argv):
-        if args.quiet:
+        if args.is_quiet:
             return
         logging.basicConfig()
 
@@ -42,8 +44,12 @@ def launch(argv=sys.argv):
     launch_script('invisibleroads', argv)
 
 
-def launch_script(script_name, argv):
-    argument_parser = ArgumentParser(script_name)
+def launch_script(
+        script_name, argv, description=None, epilogue=None,
+        formatter_class=HelpFormatter):
+    argument_parser = ArgumentParser(
+        script_name, description=description, epilog=epilogue,
+        formatter_class=formatter_class)
     scripts_by_name = get_scripts_by_name(script_name)
     parser_by_name = configure_parser(argument_parser, scripts_by_name)
     run_scripts(argument_parser, parser_by_name, scripts_by_name, argv)
