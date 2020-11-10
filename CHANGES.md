@@ -1,6 +1,7 @@
 # 0.3
 - Define LoggingScript
 - Support nested subparsers
+- Support ArgumentParser arguments
 
 # 0.2
 - Drop support for Python 2

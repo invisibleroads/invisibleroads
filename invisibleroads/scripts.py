@@ -46,10 +46,10 @@ def launch(argv=sys.argv):
 
 def launch_script(
         script_name, argv, description=None, epilogue=None,
-        formatter_class=HelpFormatter):
+        formatter_class=HelpFormatter, *args, **kwargs):
     argument_parser = ArgumentParser(
         script_name, description=description, epilog=epilogue,
-        formatter_class=formatter_class)
+        formatter_class=formatter_class, *args, **kwargs)
     scripts_by_name = get_scripts_by_name(script_name)
     parser_by_name = configure_parser(argument_parser, scripts_by_name)
     run_scripts(argument_parser, parser_by_name, scripts_by_name, argv)

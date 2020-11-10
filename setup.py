@@ -22,7 +22,7 @@ DESCRIPTION = '\n\n'.join(open(join(FOLDER, x)).read().strip() for x in [
 
 setup(
     name='invisibleroads',
-    version='0.3.3',
+    version='0.3.4',
     description='Simple framework for extensible command line scripts',
     long_description=DESCRIPTION,
     long_description_content_type='text/markdown',
